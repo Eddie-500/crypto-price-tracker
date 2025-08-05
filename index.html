@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Crypto Price Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #121212;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 40px;
+    }
+    h1 { color: #00ffcc; }
+    .crypto { margin: 20px; font-size: 24px; }
+  </style>
+</head>
+<body>
+  <h1>💸 Crypto Price Tracker</h1>
+  <div class="crypto" id="btc">Bitcoin (BTC): ...</div>
+  <div class="crypto" id="eth">Ethereum (ETH): ...</div>
+  <div class="crypto" id="doge">Dogecoin (DOGE): ...</div>
+
+  <script>
+    async function updatePrices() {
+      try {
+        const res = await fetch('/api/prices');
+        const data = await res.json();
+        document.getElementById('btc').innerText = `Bitcoin (BTC): $${data.bitcoin.usd}`;
+        document.getElementById('eth').innerText = `Ethereum (ETH): $${data.ethereum.usd}`;
+        document.getElementById('doge').innerText = `Dogecoin (DOGE): $${data.dogecoin.usd}`;
+      } catch (err) {
+        console.error('Error al actualizar precios', err);
+      }
+    }
+
+    updatePrices();
+    setInterval(updatePrices, 60000); // cada 60 segundos
+  </script>
+</body>
+</html>
